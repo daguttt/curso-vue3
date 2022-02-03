@@ -7,39 +7,68 @@
 </template>
 
 <script>
-import tasks from "./api/tasks.js";
+import tasksList from "./api/tasks.js";
 import AppTaskList from "./components/AppTaskList.vue";
 import AppTaskSearch from "./components/AppTaskSearch.vue";
 import AppTaskAdd from "./components/AppTaskAdd.vue";
+import { computed, ref } from "@vue/composition-api";
+
 export default {
   name: "app",
-  created() {
-    this.tasks = tasks;
-  },
-  data() {
-    return {
-      tasks: [],
-      search: ""
-    };
-  },
-  methods: {
-    addTask(task) {
-      this.tasks.push({
-        title: task,
-        completed: false
+  setup() {
+    // Modelo Local
+    const tasks = ref(tasksList);
+    const search = ref("");
+    // Propiedades computadas
+    const filteredTasks = computed(() => {
+      return tasks.value.filter((task) => task.title.includes(search.value));
+    });
+    // Metodos locales
+    function addTask(newTask) {
+      tasks.value.push({
+        title: newTask,
+        completed: false,
       });
     }
+    return {
+      tasks,
+      search,
+      addTask,
+      filteredTasks,
+    };
   },
   components: {
     AppTaskList,
     AppTaskSearch,
-    AppTaskAdd
+    AppTaskAdd,
   },
-  computed: {
-    filteredTasks() {
-      return this.tasks.filter(task => task.title.includes(this.search));
-    }
-  }
+  // created() {
+  //   this.tasks = tasks;
+  // },
+  // data() {
+  //   return {
+  //     tasks: [],
+  //     search: "",
+  //   };
+  // },
+  // methods: {
+  //   addTask(task) {
+  //     this.tasks.push({
+  //       title: task,
+  //       completed: false,
+  //     });
+  //   },
+  // },
+  // computed: {
+  //   filteredTasks() {
+  //     return this.tasks.filter((task) => task.title.includes(this.search));
+  //   },
+  // },
+  // components: {
+  //   AppTaskList,
+  //   AppTaskSearch,
+  //   AppTaskAdd,
+  // },
 };
 </script>
 
