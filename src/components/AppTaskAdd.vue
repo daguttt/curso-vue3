@@ -10,18 +10,35 @@
 </template>
 
 <script>
+import { ref } from "@vue/composition-api";
 export default {
   name: "AppTaskAdd",
-  data() {
+  // Vue 3 Composition API
+  setup(props, { emit }) {
+    const task = ref("");
+    function addTask() {
+      emit("addTask", task.value);
+      task.value = "";
+    }
     return {
-      task: ""
+      addTask,
+      task,
     };
   },
-  methods: {
-    addTask() {
-      this.$emit("addTask", this.task);
-      this.task = "";
-    }
-  }
+
+  // -**********************************-
+
+  // Vue 2
+  // data() {
+  //   return {
+  //     task: ""
+  //   };
+  // },
+  // methods: {
+  //   addTask() {
+  //     this.$emit("addTask", this.task);
+  //     this.task = "";
+  //   }
+  // }
 };
 </script>
