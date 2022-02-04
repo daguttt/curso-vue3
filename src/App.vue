@@ -11,43 +11,80 @@ import tasksList from "./api/tasks.js";
 import AppTaskList from "./components/AppTaskList.vue";
 import AppTaskSearch from "./components/AppTaskSearch.vue";
 import AppTaskAdd from "./components/AppTaskAdd.vue";
-import { computed, ref, watch } from "@vue/composition-api";
+import {
+  computed,
+  reactive,
+  // ref,
+  toRefs,
+  // watch
+} from "@vue/composition-api";
 
 export default {
   name: "app",
   setup() {
-    // Modelo Local
-    // TODO: Documentación: https://v3.vuejs.org/guide/composition-api-introduction.html#reactive-variables-with-ref
-    const tasks = ref(tasksList);
-    const search = ref("");
-    // Propiedades computadas
-    const filteredTasks = computed(() => {
-      return tasks.value.filter((task) => task.title.includes(search.value));
+    // REACTIVE
+    // Modelo local
+    const tasksData = reactive({
+      tasks: tasksList,
+      search: "",
+      filteredTasks: computed(() => {
+        return tasksData.tasks.filter((task) =>
+          task.title.includes(tasksData.search)
+        );
+      }),
     });
-    // Watchers
-    // TODO: Documentación: https://v3.vuejs.org/guide/composition-api-introduction.html#reacting-to-changes-with-watch
-    // Getter function to watch
-    watch(() => {
-      console.log(tasks.value.length);
-    });
-    // Reactive reference and callback (newValue, oldValue)
-    watch(search, (newValue, oldValue) => {
-      console.log(`Old:${oldValue} | | New:${newValue}`);
-    });
-
-    // Metodos locales
+    // -**********************************-
+    // Métodos locales
     function addTask(newTask) {
-      tasks.value.push({
+      tasksData.tasks.push({
         title: newTask,
         completed: false,
       });
     }
+    // -**********************************-
+    // Return
     return {
-      tasks,
-      search,
+      ...toRefs(tasksData),
       addTask,
-      filteredTasks,
     };
+
+    // **********************************
+
+    // REF
+    // Modelo Local
+    // // TODO: Documentación: https://v3.vuejs.org/guide/composition-api-introduction.html#reactive-variables-with-ref
+    // const tasks = ref(tasksList);
+    // const search = ref("");
+    // // -**********************************-
+    // // Propiedades computadas
+    // const filteredTasks = computed(() => {
+    //   return tasks.value.filter((task) => task.title.includes(search.value));
+    // });
+    // // -**********************************-
+    // // Watchers
+    // // TODO: Documentación: https://v3.vuejs.org/guide/composition-api-introduction.html#reacting-to-changes-with-watch
+    // // Getter function to watch
+    // watch(() => {
+    //   console.log(tasks.value.length);
+    // });
+    // // Reactive reference and callback (newValue, oldValue)
+    // watch(search, (newValue, oldValue) => {
+    //   console.log(`Old:${oldValue} | | New:${newValue}`);
+    // });
+    // // -**********************************-
+    // // Metodos locales
+    // function addTask(newTask) {
+    //   tasks.value.push({
+    //     title: newTask,
+    //     completed: false,
+    //   });
+    // }
+    // return {
+    //   tasks,
+    //   search,
+    //   addTask,
+    //   filteredTasks,
+    // };
   },
   components: {
     AppTaskList,
