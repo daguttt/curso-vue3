@@ -8,10 +8,16 @@
       @input="onInput($event.target.value)"
       placeholder="Start searching..."
     /> -->
-    <input
+    <!-- <input
       type="search"
       :value="search"
       @input="(event) => onInput(event.target.value)"
+      placeholder="Start searching..."
+    /> -->
+    <input
+      type="search"
+      :value="search"
+      @input="onInput"
       placeholder="Start searching..."
     />
   </div>
@@ -36,8 +42,9 @@ export default {
 
   // Vue 3 - Composition API
   setup(props, context) {
-    const onInput = (value) => {
-      context.emit("input", value);
+    const onInput = (event) => {
+      // context.emit("input", value);
+      context.emit("input", event.target.value);
     };
     return {
       onInput,
