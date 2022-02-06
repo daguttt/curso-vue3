@@ -4,6 +4,7 @@
     <hr />
     <input
       type="search"
+      :value="search"
       @input="onInput($event.target.value)"
       placeholder="Start searching..."
     />
@@ -13,6 +14,12 @@
 <script>
 export default {
   name: "AppTaskSearch",
+  props: {
+    search: {
+      type: String,
+      required: true,
+    },
+  },
   // Vue 2
   // methods: {
   //   onInput(value) {

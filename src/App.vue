@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <AppTaskSearch v-model="search" />
-    <AppTaskList :tasks="filteredTasks" />
+    <AppTaskSearch v-model="search" :search="search" />
+    <AppTaskList :tasks="store.getters.filteredTasks" />
     <AppTaskAdd @addTask="addTask" />
   </div>
 </template>
@@ -11,10 +11,7 @@ import AppTaskList from "./components/AppTaskList.vue";
 import AppTaskSearch from "./components/AppTaskSearch.vue";
 import AppTaskAdd from "./components/AppTaskAdd.vue";
 import useTasks from "@/composables/useTasks";
-import // ref,
-// watch
-"@vue/composition-api";
-
+import store from "@/store.js";
 export default {
   name: "app",
   components: {
@@ -25,7 +22,7 @@ export default {
   // VUE 3 - Composition API
   setup() {
     // Función compositora (Como un custom hook en React)
-    return { ...useTasks() };
+    return { ...useTasks(), store };
 
     // **********************************
 
