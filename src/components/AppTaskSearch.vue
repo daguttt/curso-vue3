@@ -2,10 +2,16 @@
   <div>
     <h2>Search tasks</h2>
     <hr />
-    <input
+    <!-- <input
       type="search"
       :value="search"
       @input="onInput($event.target.value)"
+      placeholder="Start searching..."
+    /> -->
+    <input
+      type="search"
+      :value="search"
+      @input="(event) => onInput(event.target.value)"
       placeholder="Start searching..."
     />
   </div>
